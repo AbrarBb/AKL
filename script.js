@@ -142,7 +142,13 @@
 
 /* ── ROLE TYPEWRITER ────────────────── */
 (function(){
-  const roles = ['Creative Developer','Mobile App Developer','Full-Stack Engineer','Blockchain Researcher','AI Enthusiast'];
+  const roles = [
+    'Founder @ Khatib Studio',
+    'Indie Android Developer',
+    'Smart Contract Researcher',
+    'Flutter & Mobile Engineer',
+    'Final-Year CSE @ EWU'
+  ];
   const el = document.querySelector('.hero-tag span');
   if(!el) return;
   el.textContent = '';
