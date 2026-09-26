@@ -330,7 +330,8 @@ const PROJECTS_DATA = {
     logoSrc: 'assets/logos/noyza-logo.png',
     logoFallbackIcon: 'activity',
     videoSrc: 'assets/videos/noyza.mp4',
-    youtubeId: null,
+    youtubeId: 'XRkCkyVK7Ns',
+    isShort: true,
     screenshots: [
       {
         src: 'assets/screenshots/noyza-1.png',
@@ -352,7 +353,8 @@ const PROJECTS_DATA = {
       { name: 'Material 3', iconLucide: 'layers' }
     ],
     links: [
-      { label: 'View on Google Play', url: 'https://play.google.com/store/apps/dev?id=6004694038713258412', icon: 'smartphone', primary: true },
+      { label: 'Watch Demo Video', url: 'https://youtube.com/shorts/XRkCkyVK7Ns', icon: 'play-circle', primary: true },
+      { label: 'View on Google Play', url: 'https://play.google.com/store/apps/dev?id=6004694038713258412', icon: 'smartphone', primary: false },
       { label: 'GitHub Repository', url: 'https://github.com/AbrarBb/Noyza', icon: 'github', primary: false }
     ]
   },
@@ -368,7 +370,8 @@ const PROJECTS_DATA = {
     logoSrc: 'assets/logos/cyvia-logo.png',
     logoFallbackIcon: 'shield-check',
     videoSrc: 'assets/videos/cyvia.mp4',
-    youtubeId: null,
+    youtubeId: 'gl3t4Yt1pLY',
+    isShort: true,
     screenshots: [
       {
         src: 'assets/screenshots/cyvia-1.png',
@@ -390,7 +393,8 @@ const PROJECTS_DATA = {
       { name: 'Offline Architecture', iconLucide: 'shield-check' }
     ],
     links: [
-      { label: 'View on Google Play', url: 'https://play.google.com/store/apps/dev?id=6004694038713258412', icon: 'smartphone', primary: true },
+      { label: 'Watch Demo Video', url: 'https://youtube.com/shorts/gl3t4Yt1pLY', icon: 'play-circle', primary: true },
+      { label: 'View on Google Play', url: 'https://play.google.com/store/apps/dev?id=6004694038713258412', icon: 'smartphone', primary: false },
       { label: 'GitHub Repository', url: 'https://github.com/AbrarBb/Cyvia', icon: 'github', primary: false }
     ]
   },
@@ -444,7 +448,7 @@ const PROJECTS_DATA = {
     logoSrc: 'assets/logos/pragmaguard-logo.png',
     logoFallbackIcon: 'shield-alert',
     videoSrc: 'assets/videos/pragmaguard.mp4',
-    youtubeId: null,
+    youtubeId: 'Ld2gdeONurQ',
     screenshots: [
       {
         src: 'assets/screenshots/pragmaguard-1.png',
@@ -467,7 +471,8 @@ const PROJECTS_DATA = {
       { name: 'Next.js', icon: 'devicon-nextjs-plain' }
     ],
     links: [
-      { label: 'GitHub Repository', url: 'https://github.com/AbrarBb/PragmaGuard', icon: 'github', primary: true },
+      { label: 'Watch YouTube Demo', url: 'https://youtu.be/Ld2gdeONurQ', icon: 'play-circle', primary: true },
+      { label: 'GitHub Repository', url: 'https://github.com/AbrarBb/PragmaGuard', icon: 'github', primary: false },
       { label: 'Hugging Face Space', url: 'https://huggingface.co/spaces/aklajim/PragmaGuard', icon: 'external-link', primary: false }
     ]
   },
@@ -505,6 +510,43 @@ const PROJECTS_DATA = {
     ],
     links: [
       { label: 'Open Live Prototype', url: 'https://abrarbb.github.io/Blockchain-Based-Privacy-Preserving-E-Voting-System-prototype/', icon: 'external-link', primary: true }
+    ]
+  },
+
+  restrosync: {
+    id: 'restrosync',
+    num: '07',
+    name: 'RestroSync',
+    tagline: 'Smart Restaurant Operations & Kitchen Synchronization Platform',
+    badge: 'Operations Hub',
+    badgeClass: 'wi-badge--feat',
+    period: '2025',
+    logoSrc: 'assets/logos/citygo-logo.png',
+    logoFallbackIcon: 'utensils',
+    videoSrc: 'assets/videos/restrosync.mp4',
+    youtubeId: 'yZHzysbxjzo',
+    screenshots: [
+      {
+        src: 'assets/screenshots/citygo-1.png',
+        title: 'RestroSync Management & Operations Dashboard',
+        caption: 'RestroSync - Real-time table ordering, kitchen display sync, and billing reconciliation'
+      }
+    ],
+    description: 'A restaurant operations platform unifying front-of-house table ordering, live kitchen display synchronization, and billing into one real-time management hub.',
+    architectureStory: 'Built with real-time websocket and database sync to coordinate table orders with kitchen display systems, eliminating lost tickets and optimizing food preparation workflows under high-volume rushes.',
+    highlights: [
+      'Real-time synchronization between front-of-house table ordering and kitchen display screens',
+      'Live order state management and ticket latency reduction',
+      'End-to-end billing and daily settlement reconciliation'
+    ],
+    tech: [
+      { name: 'React', icon: 'devicon-react-original colored' },
+      { name: 'Node.js', icon: 'devicon-nodejs-plain colored' },
+      { name: 'WebSocket', iconLucide: 'activity' },
+      { name: 'Database', iconLucide: 'database' }
+    ],
+    links: [
+      { label: 'Watch YouTube Demo', url: 'https://youtu.be/yZHzysbxjzo', icon: 'play-circle', primary: true }
     ]
   }
 };
@@ -611,13 +653,15 @@ const PROJECT_KEYS = ['citygo', 'noyza', 'cyvia', 'synaptalk', 'pragmaguard', 'z
     // If project has youtubeId, embed responsive YouTube player with autoplay
     if(proj.youtubeId){
       pathHint.textContent = `https://youtu.be/${proj.youtubeId}`;
+      const isShort = proj.isShort || false;
       wrap.innerHTML = `
         <iframe
-          src="https://www.youtube-nocookie.com/embed/${proj.youtubeId}?autoplay=1&rel=0&modestbranding=1"
+          src="https://www.youtube.com/embed/${proj.youtubeId}?autoplay=1&rel=0&modestbranding=1"
           title="${proj.name} Video Demo"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen
-          style="width:100%; height:100%; border:none; border-radius:12px;">
+          style="${isShort ? 'max-width:380px; height:100%; aspect-ratio:9/16; margin:0 auto; display:block;' : 'width:100%; height:100%;'} border:none; border-radius:12px;">
         </iframe>
       `;
       return;
@@ -656,9 +700,10 @@ const PROJECT_KEYS = ['citygo', 'noyza', 'cyvia', 'synaptalk', 'pragmaguard', 'z
         pathHint.textContent = `https://youtu.be/${id}`;
         wrap.innerHTML = `
           <iframe
-            src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1"
+            src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1"
             title="${proj.name} Video Demo"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen
             style="width:100%; height:100%; border:none; border-radius:12px;">
           </iframe>
