@@ -195,44 +195,47 @@ body.ch #cursor-ring { width: 54px; height: 54px; border-color: var(--ac); }
 
 /* Avatar */
 .hero-right { display: flex; justify-content: flex-end; }
-.avatar-wrap { position: relative; width: 240px; height: 240px; }
+.avatar-wrap { position: relative; width: clamp(240px, 22vw, 290px); height: clamp(240px, 22vw, 290px); }
 .avatar-ring-outer {
   position: absolute; inset: -8px; border-radius: 50%;
-  border: 1px solid rgba(255,69,0,.25);
-  animation: spin 12s linear infinite;
+  border: 1px solid rgba(255,69,0,.28);
+  animation: spin 14s linear infinite;
   background: conic-gradient(var(--ac) 0deg, transparent 120deg, transparent 360deg);
   -webkit-mask: radial-gradient(circle, transparent 46%, white 47%);
   mask: radial-gradient(circle, transparent 46%, white 47%);
 }
 .avatar-ring-inner {
   position: absolute; inset: -2px; border-radius: 50%;
-  border: 1px solid rgba(255,69,0,.12);
+  border: 1px solid rgba(255,69,0,.15);
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .avatar-body {
   width: 100%; height: 100%; border-radius: 50%;
-  background: var(--bg3);
-  border: 1px solid var(--bd);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--fh); font-size: 2.5rem; font-weight: 800;
-  color: var(--ac); letter-spacing: .05em;
+  background: radial-gradient(circle at 50% 30%, rgba(255,69,0,.15), var(--bg2) 75%);
+  border: 1px solid rgba(255,255,255,.08);
+  display: flex; align-items: flex-end; justify-content: center;
   position: relative; overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0,0,0,.6), inset 0 0 20px rgba(0,0,0,.3);
 }
 .avatar-body::after {
   content: '';
   position: absolute; inset: 0;
-  background: radial-gradient(circle at 40% 40%, rgba(255,69,0,.1), transparent 60%);
+  border-radius: 50%;
+  box-shadow: inset 0 -20px 30px rgba(9,9,9,.6);
+  pointer-events: none;
 }
-.avatar-badge {
-  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-  background: rgba(9,9,9,.85); backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,69,0,.3); border-radius: 100px;
-  padding: .35rem .9rem; font-family: var(--fm); font-size: .65rem;
-  letter-spacing: .08em; color: var(--fg); white-space: nowrap;
-  display: flex; align-items: center; gap: .5rem;
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  transform: scale(1.02);
+  transition: transform .4s var(--ease);
 }
-.av-dot { width: 7px; height: 7px; background: #4ADE80; border-radius: 50%; animation: blink 2s ease-in-out infinite; }
-@keyframes blink { 0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)} 50%{box-shadow:0 0 0 5px rgba(74,222,128,0)} }
+.avatar-wrap:hover .avatar-img {
+  transform: scale(1.07);
+}
 
 /* Stats */
 .hero-stats {
