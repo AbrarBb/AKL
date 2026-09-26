@@ -290,7 +290,7 @@ const PROJECTS_DATA = {
     logoSrc: 'assets/logos/citygo-logo.png',
     logoFallbackIcon: 'bus',
     videoSrc: 'assets/videos/citygo.mp4',
-    youtubeId: null,
+    youtubeId: '28DNBCcHyEU',
     screenshots: [
       {
         src: 'assets/screenshots/citygo-1.png',
@@ -313,7 +313,8 @@ const PROJECTS_DATA = {
       { name: 'SQLite', icon: 'devicon-sqlite-plain colored' }
     ],
     links: [
-      { label: 'Web App Repo', url: 'https://github.com/AbrarBb/citygo', icon: 'globe', primary: true },
+      { label: 'Watch YouTube Demo', url: 'https://youtu.be/28DNBCcHyEU', icon: 'play-circle', primary: true },
+      { label: 'Web App Repo', url: 'https://github.com/AbrarBb/citygo', icon: 'globe', primary: false },
       { label: 'Flutter Supervisor App', url: 'https://github.com/AbrarBb/citygo-supervisor', icon: 'github', primary: false }
     ]
   },
@@ -443,7 +444,7 @@ const PROJECTS_DATA = {
     logoSrc: 'assets/logos/pragmaguard-logo.png',
     logoFallbackIcon: 'shield-alert',
     videoSrc: 'assets/videos/pragmaguard.mp4',
-    youtubeId: '28DNBCcHyEU',
+    youtubeId: null,
     screenshots: [
       {
         src: 'assets/screenshots/pragmaguard-1.png',
@@ -466,8 +467,7 @@ const PROJECTS_DATA = {
       { name: 'Next.js', icon: 'devicon-nextjs-plain' }
     ],
     links: [
-      { label: 'Watch YouTube Demo', url: 'https://youtu.be/28DNBCcHyEU', icon: 'play-circle', primary: true },
-      { label: 'GitHub Repository', url: 'https://github.com/AbrarBb/PragmaGuard', icon: 'github', primary: false },
+      { label: 'GitHub Repository', url: 'https://github.com/AbrarBb/PragmaGuard', icon: 'github', primary: true },
       { label: 'Hugging Face Space', url: 'https://huggingface.co/spaces/aklajim/PragmaGuard', icon: 'external-link', primary: false }
     ]
   },
@@ -591,6 +591,15 @@ const PROJECT_KEYS = ['citygo', 'noyza', 'cyvia', 'synaptalk', 'pragmaguard', 'z
     if(window.lucide) window.lucide.createIcons();
   }
 
+  function extractYouTubeId(url){
+    if(!url) return null;
+    const trimmed = url.trim();
+    if(/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed;
+    const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
+    const match = trimmed.match(regExp);
+    return match ? match[1] : null;
+  }
+
   function renderVideo(proj){
     const wrap = document.getElementById('pm-video-wrap');
     const desc = document.getElementById('pm-video-desc');
@@ -599,49 +608,67 @@ const PROJECT_KEYS = ['citygo', 'noyza', 'cyvia', 'synaptalk', 'pragmaguard', 'z
     pathHint.textContent = proj.videoSrc;
     desc.textContent = proj.description;
 
-    // PragmaGuard has an active YouTube demo embed available
+    // If project has youtubeId, embed responsive YouTube player with autoplay
     if(proj.youtubeId){
+      pathHint.textContent = `https://youtu.be/${proj.youtubeId}`;
       wrap.innerHTML = `
         <iframe
-          src="https://www.youtube-nocookie.com/embed/${proj.youtubeId}?rel=0&modestbranding=1"
+          src="https://www.youtube-nocookie.com/embed/${proj.youtubeId}?autoplay=1&rel=0&modestbranding=1"
           title="${proj.name} Video Demo"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
+          allowfullscreen
+          style="width:100%; height:100%; border:none; border-radius:12px;">
         </iframe>
       `;
       return;
     }
 
-    // Default HTML5 video player with fallback state
+    // Interactive fallback with YouTube link paste bar + test local video button
     wrap.innerHTML = `
-      <video id="pm-active-video" controls playsinline preload="metadata">
-        <source src="${proj.videoSrc}" type="video/mp4">
-        Your browser does not support HTML5 video.
-      </video>
-      <div class="pm-video-fallback" id="pm-video-fallback" style="display:none;">
+      <div class="pm-video-fallback" id="pm-video-fallback">
         <img class="pm-video-fallback-img" src="${proj.screenshots[0] ? proj.screenshots[0].src : ''}" alt="${proj.name} Preview" />
         <div class="pm-video-fallback-content">
-          <div class="pm-play-bubble" title="Recorded Demo Ready">
+          <div class="pm-play-bubble" title="Stream Video Demo">
             <i data-lucide="play" class="icon-lg"></i>
           </div>
-          <h4 style="font-family:var(--fh); font-size:1.15rem; color:var(--fg);">${proj.name} Recorded Demo</h4>
-          <p style="font-size:.82rem; color:var(--fg-m); line-height:1.6;">
-            Place your recorded MP4 in <code style="color:var(--ac); font-family:var(--fm);">${proj.videoSrc}</code> or click below to preview your local file right now.
+          <h4 style="font-family:var(--fh); font-size:1.2rem; color:var(--fg);">${proj.name} Video Demo</h4>
+          <p style="font-size:.82rem; color:var(--fg-m); line-height:1.6; max-width:440px;">
+            Paste any YouTube video link below to stream instantly, or test a recorded local video file.
           </p>
+          <div class="pm-yt-input-row">
+            <input type="text" id="pm-yt-url-input" class="pm-yt-input" placeholder="Paste YouTube link (e.g. https://youtu.be/...)" />
+            <button type="button" class="pm-yt-play-btn" id="pm-yt-play-btn">
+              <i data-lucide="play-circle" class="icon-xs"></i>
+              <span>Play</span>
+            </button>
+          </div>
         </div>
       </div>
     `;
 
-    const vid = document.getElementById('pm-active-video');
-    const fallback = document.getElementById('pm-video-fallback');
-
-    if(vid){
-      vid.addEventListener('error', ()=>{
-        vid.style.display = 'none';
-        if(fallback) fallback.style.display = 'flex';
-        if(window.lucide) window.lucide.createIcons();
-      });
+    const ytInput = document.getElementById('pm-yt-url-input');
+    const ytBtn = document.getElementById('pm-yt-play-btn');
+    function playEnteredYt(){
+      const val = ytInput ? ytInput.value.trim() : '';
+      const id = extractYouTubeId(val);
+      if(id){
+        proj.youtubeId = id;
+        pathHint.textContent = `https://youtu.be/${id}`;
+        wrap.innerHTML = `
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1"
+            title="${proj.name} Video Demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            style="width:100%; height:100%; border:none; border-radius:12px;">
+          </iframe>
+        `;
+      } else if(val) {
+        alert('Please enter a valid YouTube link or video ID.');
+      }
     }
+    if(ytBtn) ytBtn.addEventListener('click', playEnteredYt);
+    if(ytInput) ytInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') playEnteredYt(); });
   }
 
   function renderScreenshots(proj){

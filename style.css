@@ -865,6 +865,28 @@ footer p { font-family: var(--fm); font-size: .72rem; letter-spacing: .04em; col
 .pm-play-bubble:hover {
   transform: scale(1.1); box-shadow: 0 0 0 18px rgba(255,69,0,.35);
 }
+.pm-yt-input-row {
+  display: flex; align-items: center; gap: .5rem; width: 100%;
+  max-width: 440px; margin-top: .5rem;
+}
+.pm-yt-input {
+  flex: 1; background: rgba(18, 18, 18, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px; padding: .55rem .85rem;
+  font-family: var(--fm); font-size: .75rem; color: #fff;
+  outline: none; transition: border-color .2s;
+}
+.pm-yt-input:focus { border-color: var(--ac); }
+.pm-yt-play-btn {
+  background: var(--ac); color: #fff; border: none;
+  border-radius: 8px; padding: .55rem 1rem;
+  font-family: var(--fm); font-size: .75rem; font-weight: 700;
+  cursor: pointer; display: inline-flex; align-items: center; gap: .35rem;
+  transition: background .2s, transform .2s; flex-shrink: 0;
+}
+.pm-yt-play-btn:hover {
+  background: #CC3700; transform: translateY(-1px);
+}
 .pm-video-info {
   margin-top: 1.25rem; display: flex; flex-wrap: wrap;
   align-items: center; justify-content: space-between; gap: 1rem;
